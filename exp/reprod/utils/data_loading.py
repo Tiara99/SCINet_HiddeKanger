@@ -2,7 +2,7 @@ import pandas as pd
 
 def load_data(data_name, pairs):
 
-    df = pd.read_csv('exp/reprod/data/Data_preprocessed/' + data_name + '.csv').dropna()
+    df = pd.read_csv('/content/SCINet/exp/reprod/data/Data_preprocessed/' + data_name + '.csv').dropna()
 
     mean = df.mean()
     std = df.std()
