@@ -2,9 +2,11 @@ import numpy as np
 import pandas as pd
 
 import tensorflow as tf
-from event import SignalEvent
+#from event import SignalEvent
+from exp.backtester.utils.event import SignalEvent
 
-from preprocess_data import match_data
+#from preprocess_data import match_data
+from exp.backtester.utils.preprocess_data import match_data
 
 
 from base.SCINet import scinet_builder
