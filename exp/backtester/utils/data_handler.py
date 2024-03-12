@@ -3,10 +3,11 @@ import datetime
 import numpy as np
 import pandas as pd
 
-import sys
-sys.path.insert(0, "utils/")
+#import sys
+#sys.path.insert(0, "utils/")
 
-from event import MarketEvent
+#from event import MarketEvent
+from exp.backtester.utils.event import MarketEvent
 
 class HistoricCSVDataHandler:
     """
