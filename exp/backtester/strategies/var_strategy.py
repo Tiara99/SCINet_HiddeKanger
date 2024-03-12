@@ -4,7 +4,8 @@ import pandas as pd
 from statsmodels.tsa.api import VAR
 import statsmodels.api as sm
 
-from event import SignalEvent
+#from event import SignalEvent
+from exp.backtester.utils.event import SignalEvent
 
 class VAR_Strategy:
     
