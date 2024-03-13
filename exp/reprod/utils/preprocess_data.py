@@ -136,7 +136,7 @@ def create_samples(data: pd.DataFrame, X_LEN: int, Y_LEN: int, OVERLAPPING: bool
             else:
                 samples.append([X, y])
 
-    samples = np.array(samples)
+    #samples = np.array(samples)
     random.shuffle(samples)
 
     return samples
