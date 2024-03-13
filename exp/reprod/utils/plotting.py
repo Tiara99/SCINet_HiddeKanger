@@ -22,7 +22,7 @@ def plot_barplot_two(datasets, orig_maes, maes):
     ax.set_axisbelow(True)
     plt.title('Performance of leaky Tensorflow')
 
-    plt.savefig('exp/reprod/results/comparison.pdf')
+    #plt.savefig('exp/reprod/results/comparison.pdf')
 
 
 def plot_barplot_three(datasets, orig_maes, maes, maes_leaky):
@@ -41,4 +41,4 @@ def plot_barplot_three(datasets, orig_maes, maes, maes_leaky):
     ax.set_axisbelow(True)
     plt.title('Comparison original and Tensorflow implementation')
 
-    plt.savefig('exp/reprod/results/comparison_leaky.pdf')
+    #plt.savefig('exp/reprod/results/comparison_leaky.pdf')
