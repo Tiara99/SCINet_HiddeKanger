@@ -355,7 +355,8 @@ from tensorflow.keras import layers
 
 # Define the CNN-SCINet combined model
 class CNN_SCINet(tf.keras.Model):
-    def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
+    # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
+    def __init__(self, cnn_filters, cnn_kernel_size, output_len, input_len, output_dim, input_dim, selected_columns, loss_weights, hid_size, num_levels, kernel, dropout, learning_rate):
         super(CNN_SCINet, self).__init__()
 
         # CNN layers for spatial pattern learning
@@ -366,11 +367,24 @@ class CNN_SCINet(tf.keras.Model):
         ])
 
         # SCINet layers for temporal pattern learning
-        self.scinet_layers = SCINet(output_len=scinet_output_len, 
-                                    input_len=scinet_input_len,
-                                    input_dim=scinet_output_dim, 
-                                    output_dim=scinet_output_dim, 
-                                    num_levels=scinet_num_levels)
+        # self.scinet_layers = SCINet(output_len=scinet_output_len, 
+        #                             input_len=scinet_input_len,
+        #                             input_dim=scinet_output_dim, 
+        #                             output_dim=scinet_output_dim, 
+        #                             num_levels=scinet_num_levels)
+      
+        self.scinet_layers = scinet_builder( 
+                    output_len: output_len,
+                    input_len: input_len,
+                    output_dim: output_dim,
+                    input_dim: input_dim,
+                    selected_columns: selected_columns, 
+                    loss_weights: loss_weights,
+                    hid_size = hid_size,
+                    num_levels = num_levels,
+                    kernel = kernel,
+                    dropout = dropout,
+                    learning_rate = learning_rate)
 
     def call(self, inputs):
         # CNN layers for spatial pattern learning
