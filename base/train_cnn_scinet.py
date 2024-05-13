@@ -45,7 +45,7 @@ def train_cnn_scinet( X_train: np.array,
                         
     # def __init__(self, cnn_filters, cnn_kernel_size, output_len, input_len, output_dim, input_dim, selected_columns, loss_weights, hid_size, num_levels, kernel, dropout, learning_rate):
 
-    print(f"===========================[CNN-SCINET]=====================================")
+    print(f"===========================[CNN-SCINet]=====================================")
     print(f"Initializing training with data:")
     print(f"X_train: {X_train.shape}, y_train: {y_train.shape}")
     print(f"X_val: {X_val.shape}, y_val: {y_val.shape}")
@@ -119,10 +119,8 @@ def train_cnn_scinet( X_train: np.array,
             [y_val] * len(output_dim)),
             callbacks=[callback]
             )
-   
 
         #store performances
-
     return model, history, X_train , y_train, X_val, y_val, X_test, y_test
 
 # if __name__ == "__main__": 
