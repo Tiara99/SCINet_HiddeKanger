@@ -347,7 +347,6 @@ def scinet_builder( output_len: list,
          loss = {f'Block_{i}':"mae" for i in range(len(output_dim))},
             loss_weights = loss_weights)
 
-
     return model
 
 
@@ -366,25 +365,31 @@ class CNN_SCINet(tf.keras.Model):
             layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation='relu', padding='same')
         ])
 
-        # SCINet layers for temporal pattern learning
-        # self.scinet_layers = SCINet(output_len=scinet_output_len, 
-        #                             input_len=scinet_input_len,
-        #                             input_dim=scinet_output_dim, 
-        #                             output_dim=scinet_output_dim, 
-        #                             num_levels=scinet_num_levels)
+        SCINet layers for temporal pattern learning
+        self.scinet_layers = SCINet(output_len = output_len, 
+                                    input_len = input_len,
+                                    input_dim = input_dims, 
+                                    output_dim = output_dim, 
+                                    num_levels = num_levels,
+                                    kernel = kernel,
+                                    hid_size = hid_size,
+                                    dropout = dropout)
       
-        self.scinet_layers = scinet_builder( 
-                    output_len = output_len,
-                    input_len = input_len,
-                    output_dim = output_dim,
-                    input_dim = input_dim,
-                    selected_columns = selected_columns, 
-                    loss_weights = loss_weights,
-                    hid_size = hid_size,
-                    num_levels = num_levels,
-                    kernel = kernel,
-                    dropout = dropout,
-                    learning_rate = learning_rate)
+        # self.scinet_layers = scinet_builder( 
+        #             output_len = output_len,
+        #             input_len = input_len,
+        #             output_dim = output_dim,
+        #             input_dim = input_dim,
+        #             selected_columns = selected_columns, 
+        #             loss_weights = loss_weights, 
+        #             hid_size = hid_size,
+        #             num_levels = num_levels,
+        #             kernel = kernel,
+        #             dropout = dropout,
+        #             learning_rate = learning_rate) 
+        
+        # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
+        # loss_weights dan learning_rate di fungsi scinet_builder digunakan untuk compile model
 
     def call(self, inputs):
         # CNN layers for spatial pattern learning
