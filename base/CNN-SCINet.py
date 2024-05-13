@@ -374,12 +374,12 @@ class CNN_SCINet(tf.keras.Model):
         #                             num_levels=scinet_num_levels)
       
         self.scinet_layers = scinet_builder( 
-                    output_len: output_len,
-                    input_len: input_len,
-                    output_dim: output_dim,
-                    input_dim: input_dim,
-                    selected_columns: selected_columns, 
-                    loss_weights: loss_weights,
+                    output_len = output_len,
+                    input_len = input_len,
+                    output_dim = output_dim,
+                    input_dim = input_dim,
+                    selected_columns = selected_columns, 
+                    loss_weights = loss_weights,
                     hid_size = hid_size,
                     num_levels = num_levels,
                     kernel = kernel,
