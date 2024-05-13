@@ -351,16 +351,61 @@ def scinet_builder( output_len: list,
     return model
 
 
-if __name__ == "__main__":
-    ## EXAMPLE TO RUN
-    X = np.random.rand(1, 800, 5)
+from tensorflow.keras import layers
 
-    my_layer = scinet_builder(output_len= [20]*5, input_len= 800, input_dim= 5,
-    output_dim= [5]*5, num_levels = 2, loss_weights= [0.2]*5, selected_columns=None)
-    print('Model compiled')
-    print(my_layer.summary())
-    print(my_layer.losses)
-    # tf.keras.utils.plot_model(my_layer,
-    #  to_file= "./model.png")
+# Define the CNN-SCINet combined model
+class CNN_SCINet(tf.keras.Model):
+    def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
+        super(CNN_SCINet, self).__init__()
 
-    print(my_layer(X))
+        # CNN layers for spatial pattern learning
+        self.cnn_layers = tf.keras.Sequential([
+            layers.Conv1D(filters=cnn_filters[0], kernel_size=cnn_kernel_size[0], activation='relu', padding='same'),
+            layers.Conv1D(filters=cnn_filters[1], kernel_size=cnn_kernel_size[1], activation='relu', padding='same'),
+            layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation='relu', padding='same')
+        ])
+
+        # SCINet layers for temporal pattern learning
+        self.scinet_layers = SCINet(output_len=scinet_output_len, 
+                                    input_len=scinet_input_len,
+                                    input_dim=scinet_output_dim, 
+                                    output_dim=scinet_output_dim, 
+                                    num_levels=scinet_num_levels)
+
+    def call(self, inputs):
+        # CNN layers for spatial pattern learning
+        cnn_output = self.cnn_layers(inputs)
+        # SCINet layers for temporal pattern learning
+        scinet_output = self.scinet_layers(inputs + cnn_output)
+        return scinet_output
+
+
+# Define SCINet layers similar to the provided code
+# class SCINet(layers.Layer):
+    # Define your SCINet layers here, similar to the provided code
+
+# Create an instance of the combined model
+# combined_model = CNN_SCINet(cnn_filters=[256, 128, 1], cnn_kernel_size=[9, 9, 9],
+#                             scinet_output_len=[20]*5, scinet_input_len=800, scinet_output_dim=5, scinet_num_levels=2)
+
+# # Compile the model with appropriate optimizer and loss
+# combined_model.compile(optimizer='adam', loss='mse')
+
+# # Print the model summary
+# print(combined_model.summary())
+
+
+
+# if __name__ == "__main__":
+#     ## EXAMPLE TO RUN
+#     X = np.random.rand(1, 800, 5)
+
+#     my_layer = scinet_builder(output_len= [20]*5, input_len= 800, input_dim= 5,
+#     output_dim= [5]*5, num_levels = 2, loss_weights= [0.2]*5, selected_columns=None)
+#     print('Model compiled')
+#     print(my_layer.summary())
+#     print(my_layer.losses)
+#     # tf.keras.utils.plot_model(my_layer,
+#     #  to_file= "./model.png")
+
+#     print(my_layer(X))
