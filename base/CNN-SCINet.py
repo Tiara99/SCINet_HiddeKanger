@@ -365,7 +365,7 @@ class CNN_SCINet(tf.keras.Model):
             layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation='relu', padding='same')
         ])
 
-        SCINet layers for temporal pattern learning
+        # SCINet layers for temporal pattern learning
         self.scinet_layers = SCINet(output_len = output_len, 
                                     input_len = input_len,
                                     input_dim = input_dims, 
