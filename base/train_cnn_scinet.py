@@ -90,7 +90,8 @@ def train_cnn_scinet( X_train: np.array,
                        cnn_kernel_size = cnn_kernel_size)
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-              loss={f'Block_{i}': "mae" for i in range(5)},  # Example loss
+              # loss={f'Block_{i}': "mae" for i in range(5)},  # Example loss
+              loss = 'mae',
               loss_weights=loss_weights)  # Example loss weights
                         
     print(model.summary())
