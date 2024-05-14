@@ -40,7 +40,7 @@ def train_cnn_scinet( X_train: np.array,
                     dropout = 0.5,
                     loss_weights= [0.2, 0.2, 0.6],
                     learning_rate = 0.01,
-                    probabilistic = False,
+                    # probabilistic = False,
                     cnn_filters = [256, 128, 1],
                     cnn_kernel_size = [9, 9, 9]):
                         
@@ -86,7 +86,7 @@ def train_cnn_scinet( X_train: np.array,
                        dropout = dropout,
                        loss_weights = loss_weights,
                        learning_rate = learning_rate, 
-                       probabilistic = probabilistic,
+                       # probabilistic = probabilistic,
                        cnn_filters = cnn_filters, 
                        cnn_kernel_size = cnn_kernel_size)
 
