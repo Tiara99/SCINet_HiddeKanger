@@ -357,7 +357,8 @@ class CNN_SCINet(tf.keras.Model):
     # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
     def __init__(self, cnn_filters, cnn_kernel_size, 
                  output_len, input_len, output_dim, input_dim,  
-                 # selected_columns, loss_weights, learning_rate
+                 # selected_columns, 
+                 loss_weights, learning_rate,
                  num_levels, kernel, hid_size, dropout):
         super(CNN_SCINet, self).__init__()
 
@@ -399,7 +400,14 @@ class CNN_SCINet(tf.keras.Model):
         cnn_output = self.cnn_layers(inputs)
         # SCINet layers for temporal pattern learning
         scinet_output = self.scinet_layers(inputs + cnn_output)
-        return scinet_output
+
+        model = tf.keras.Model(inputs = inputs, outputs = scinet_output)
+        model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+                      # loss={f'Block_{i}': "mae" for i in range(5)},  # Example loss
+                      loss = 'mae',
+                      loss_weights=loss_weights)  # Example loss weights
+
+        return model
 
 
 # Define SCINet layers similar to the provided code
