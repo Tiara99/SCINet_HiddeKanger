@@ -380,17 +380,17 @@ class CNN_SCINet(tf.keras.Model):
         #                             dropout = dropout)
 
         self.scinet_layers = scinet_builder(                 
-                    output_len: list,
-                    input_len: int,
-                    output_dim: list,
-                    input_dim: int,
-                    selected_columns: list, 
-                    loss_weights: list,
-                    hid_size = 1,
-                    num_levels = 4,
-                    kernel = 5,
-                    dropout = 0.5,
-                    learning_rate = 0.01,
+                    output_len = output_len,
+                    input_len = input_len,
+                    output_dim = output_dim,
+                    input_dim = input_dim,
+                    selected_columns = selected_columns, 
+                    loss_weights = loss_weights,
+                    hid_size = hid_size,
+                    num_levels = num_levels,
+                    kernel = kernel,
+                    dropout = dropout,
+                    learning_rate = learning_rate,
                     probabilistic = False)
         
         # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
