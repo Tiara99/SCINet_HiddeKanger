@@ -303,8 +303,7 @@ def scinet_builder( output_len: list,
     if selected_columns is not None:
         assert all([output_dim[i] == len(selected_columns[i])
             for i in range(len(output_dim))]), 'Output_dims and selected columns do not correspond' #Making sure inputs are coherent
-
-    
+      
     inputs = tf.keras.Input(shape = (input_len, input_dim))
 
     X = inputs
@@ -341,13 +340,12 @@ def scinet_builder( output_len: list,
         X = tf.keras.layers.Cropping1D((output_len[i], 0))(new_input)
         # Removing "old" prices first
     
+    model = tf.keras.Model(inputs = inputs, outputs = outputs)
+    model.compile(optimizer = tf.keras.optimizers.Adam(learning_rate= learning_rate),
+         loss = {f'Block_{i}':"mae" for i in range(len(output_dim))},
+            loss_weights = loss_weights)
 
-    # model = tf.keras.Model(inputs = inputs, outputs = outputs)
-    # model.compile(optimizer = tf.keras.optimizers.Adam(learning_rate= learning_rate),
-    #      loss = {f'Block_{i}':"mae" for i in range(len(output_dim))},
-    #         loss_weights = loss_weights)
-
-    return outputs #model
+    return model
 
 
 from tensorflow.keras import layers
@@ -419,8 +417,8 @@ class CNN_SCINet(tf.keras.Model):
         model = tf.keras.Model(inputs = self.inputs, outputs = self.call(self.inputs))
         # model = model.build_model()
         model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
-                      loss={f'Block_{i}': "mae" for i in range(len(self.output_dim))},  # Example loss
-                      # loss = 'mae',
+                      # loss={f'Block_{i}': "mae" for i in range(len(self.output_dim))},  # Example loss
+                      loss = 'mae',
                       loss_weights=self.loss_weights)  # Example loss weights
         return model
 
