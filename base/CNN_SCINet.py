@@ -408,7 +408,8 @@ class CNN_SCINet(tf.keras.Model):
         # CNN layers for spatial pattern learning
         cnn_output = self.cnn_layers(inputs)
         # SCINet layers for temporal pattern learning
-        scinet_output = self.scinet_layers(inputs + cnn_output)
+        combined_input = inputs + cnn_output
+        scinet_output = self.scinet_layers(combined_input)
         return scinet_output
 
     def build_model(self):
