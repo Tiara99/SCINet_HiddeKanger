@@ -411,14 +411,13 @@ class CNN_SCINet(tf.keras.Model):
         scinet_output = self.scinet_layers(inputs + cnn_output)
         return scinet_output
 
-   def build_model(self):
+    def build_model(self):
         model = tf.keras.Model(inputs = self.inputs, outputs = self.call(self.inputs))
         # model = model.build_model()
         model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
                       loss={f'Block_{i}': "mae" for i in range(len(self.output_dim))},  # Example loss
                       # loss = 'mae',
                       loss_weights=self.loss_weights)  # Example loss weights
-
         return model
 
 
