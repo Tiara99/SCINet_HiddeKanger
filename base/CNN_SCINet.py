@@ -342,12 +342,12 @@ def scinet_builder( output_len: list,
         # Removing "old" prices first
     
 
-    model = tf.keras.Model(inputs = inputs, outputs = outputs)
-    model.compile(optimizer = tf.keras.optimizers.Adam(learning_rate= learning_rate),
-         loss = {f'Block_{i}':"mae" for i in range(len(output_dim))},
-            loss_weights = loss_weights)
+    # model = tf.keras.Model(inputs = inputs, outputs = outputs)
+    # model.compile(optimizer = tf.keras.optimizers.Adam(learning_rate= learning_rate),
+    #      loss = {f'Block_{i}':"mae" for i in range(len(output_dim))},
+    #         loss_weights = loss_weights)
 
-    return model
+    return outputs #model
 
 
 from tensorflow.keras import layers
@@ -357,7 +357,7 @@ class CNN_SCINet(tf.keras.Model):
     # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
     def __init__(self, cnn_filters, cnn_kernel_size, 
                  output_len, input_len, output_dim, input_dim,  
-                 # selected_columns, 
+                 selected_columns, probabilistic
                  loss_weights, learning_rate,
                  num_levels, kernel, hid_size, dropout):
         super(CNN_SCINet, self).__init__()
@@ -370,27 +370,28 @@ class CNN_SCINet(tf.keras.Model):
         ])
 
         # SCINet layers for temporal pattern learning
-        self.scinet_layers = SCINet(output_len = output_len, 
-                                    input_len = input_len,
-                                    input_dim = input_dim, 
-                                    output_dim = output_dim, 
-                                    num_levels = num_levels,
-                                    kernel = kernel,
-                                    hid_size = hid_size,
-                                    dropout = dropout)
-      
-        # self.scinet_layers = scinet_builder( 
-        #             output_len = output_len,
-        #             input_len = input_len,
-        #             output_dim = output_dim,
-        #             input_dim = input_dim,
-        #             selected_columns = selected_columns, 
-        #             loss_weights = loss_weights, 
-        #             hid_size = hid_size,
-        #             num_levels = num_levels,
-        #             kernel = kernel,
-        #             dropout = dropout,
-        #             learning_rate = learning_rate) 
+        # self.scinet_layers = SCINet(output_len = output_len, 
+        #                             input_len = input_len,
+        #                             input_dim = input_dim, 
+        #                             output_dim = output_dim, 
+        #                             num_levels = num_levels,
+        #                             kernel = kernel,
+        #                             hid_size = hid_size,
+        #                             dropout = dropout)
+
+        self.scinet_layers = scinet_builder(                 
+                    output_len: list,
+                    input_len: int,
+                    output_dim: list,
+                    input_dim: int,
+                    selected_columns: list, 
+                    loss_weights: list,
+                    hid_size = 1,
+                    num_levels = 4,
+                    kernel = 5,
+                    dropout = 0.5,
+                    learning_rate = 0.01,
+                    probabilistic = False)
         
         # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
         # loss_weights dan learning_rate di fungsi scinet_builder digunakan untuk compile model
