@@ -357,7 +357,7 @@ class CNN_SCINet(tf.keras.Model):
     # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
     def __init__(self, cnn_filters, cnn_kernel_size, 
                  output_len, input_len, output_dim, input_dim,  
-                 selected_columns, probabilistic
+                 selected_columns, probabilistic,
                  loss_weights, learning_rate,
                  num_levels, kernel, hid_size, dropout):
         super(CNN_SCINet, self).__init__()
