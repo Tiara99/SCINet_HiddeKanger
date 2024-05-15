@@ -305,7 +305,7 @@ def scinet_builder( output_len: list,
             for i in range(len(output_dim))]), 'Output_dims and selected columns do not correspond' #Making sure inputs are coherent
 
     
-    # inputs = tf.keras.Input(shape = (input_len, input_dim))
+    inputs = tf.keras.Input(shape = (input_len, input_dim))
 
     X = inputs
     outputs = []
@@ -413,9 +413,9 @@ class CNN_SCINet(tf.keras.Model):
         return scinet_output
 
     def build_model(self):
-        inputs = tf.keras.Input(shape=(self.input_len, self.input_dim))
-        outputs = self.call(inputs)
-        model = tf.keras.Model(inputs = inputs, outputs = outputs)
+        # inputs = tf.keras.Input(shape=(self.input_len, self.input_dim))
+        # outputs = self.call(inputs)
+        model = tf.keras.Model(inputs = self.inputs, outputs = self.call(self.inputs))
         # model = model.build_model()
         model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
                       loss={f'Block_{i}': "mae" for i in range(len(self.output_dim))},  # Example loss
