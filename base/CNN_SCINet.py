@@ -305,7 +305,7 @@ def scinet_builder( output_len: list,
             for i in range(len(output_dim))]), 'Output_dims and selected columns do not correspond' #Making sure inputs are coherent
 
     
-    inputs = tf.keras.Input(shape = (input_len, input_dim))
+    # inputs = tf.keras.Input(shape = (input_len, input_dim))
 
     X = inputs
     outputs = []
