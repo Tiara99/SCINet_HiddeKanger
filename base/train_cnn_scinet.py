@@ -93,6 +93,7 @@ def train_cnn_scinet( X_train: np.array,
     #           loss = 'mae',
     #           loss_weights=loss_weights)  # Example loss weights
                         
+    model = model.build_model()                    
     print(model.summary())
 
     # check_Loss_Last(X_train, y_train, 'training')
