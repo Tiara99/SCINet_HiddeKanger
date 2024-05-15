@@ -362,6 +362,12 @@ class CNN_SCINet(tf.keras.Model):
                  num_levels, kernel, hid_size, dropout):
         super(CNN_SCINet, self).__init__()
 
+        self.input_len = input_len
+        self.input_dim = input_dim
+        self.output_dim = output_dim
+        self.learning_rate = learning_rate
+        self.loss_weights = loss_weights
+                   
         # CNN layers for spatial pattern learning
         self.cnn_layers = tf.keras.Sequential([
             layers.Conv1D(filters=cnn_filters[0], kernel_size=cnn_kernel_size[0], activation='relu', padding='same'),
@@ -396,17 +402,22 @@ class CNN_SCINet(tf.keras.Model):
         # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
         # loss_weights dan learning_rate di fungsi scinet_builder digunakan untuk compile model
 
+        self.inputs = tf.keras.Input(shape=(input_len, input_dim))
+
     def call(self, inputs):
         # CNN layers for spatial pattern learning
         cnn_output = self.cnn_layers(inputs)
         # SCINet layers for temporal pattern learning
         scinet_output = self.scinet_layers(inputs + cnn_output)
+        return scinet_output
 
-        model = tf.keras.Model(inputs = inputs, outputs = scinet_output)
-        model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-                      # loss={f'Block_{i}': "mae" for i in range(5)},  # Example loss
-                      loss = 'mae',
-                      loss_weights=loss_weights)  # Example loss weights
+   def build_model(self):
+        model = tf.keras.Model(inputs = self.inputs, outputs = self.call(self.inputs))
+        # model = model.build_model()
+        model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=self.learning_rate),
+                      loss={f'Block_{i}': "mae" for i in range(len(self.output_dim))},  # Example loss
+                      # loss = 'mae',
+                      loss_weights=self.loss_weights)  # Example loss weights
 
         return model
 
