@@ -369,9 +369,9 @@ class CNN_SCINet(tf.keras.Model):
         # CNN layers for spatial pattern learning
         self.cnn_layers = tf.keras.Sequential([
             # tf.keras.Input(shape=(output_dim, 1)),
-            layers.Conv1D(filters=cnn_filters[0], kernel_size=cnn_kernel_size[0], padding='same'),
-            layers.Conv1D(filters=cnn_filters[1], kernel_size=cnn_kernel_size[1], padding='same'),
-            layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], padding='same'),
+            layers.Conv1D(filters=cnn_filters[0], kernel_size=cnn_kernel_size[0], activation = 'elu', padding='same'),
+            layers.Conv1D(filters=cnn_filters[1], kernel_size=cnn_kernel_size[1], activation = 'elu', padding='same'),
+            layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation = 'elu', padding='same'),
             layers.Dense(30)
         ])
 
