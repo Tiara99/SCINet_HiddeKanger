@@ -402,7 +402,7 @@ class CNN_SCINet(tf.keras.Model):
         # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
         # loss_weights dan learning_rate di fungsi scinet_builder digunakan untuk compile model
 
-        self.inputs = tf.keras.Input(shape=(input_dim, 1))
+        self.inputs = tf.keras.Input(shape=(input_len, input_dim))
 
     def call(self, inputs):
         # CNN layers for spatial pattern learning
