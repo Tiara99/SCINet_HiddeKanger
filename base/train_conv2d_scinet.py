@@ -10,7 +10,7 @@ import sys
 WORKDIR_PATH = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(1, WORKDIR_PATH)
 from SCINet import scinet_builder
-from CNN_SCINet import CNN_SCINet
+from Conv2D_SCINet import Conv2D_SCINet
 
 
 def check_Loss_Last(X_test, Y_test, data_type: str):
