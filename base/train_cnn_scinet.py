@@ -57,7 +57,7 @@ def train_cnn_scinet( X_train: np.array,
                                                 restore_best_weights = True)
 
 
-    input_dim = X_train.shape[2]
+    input_dim = X_train.shape[2] * X_train.shape[3]
    # input_len, output_len = X_LEN, Y_LEN
     input_len = X_LEN
     # model = scinet_builder(  output_len= Y_LEN,
