@@ -354,7 +354,7 @@ from tensorflow.keras import layers
 class CNN_SCINet(tf.keras.Model):
     # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
     def __init__(self, cnn_filters, cnn_kernel_size, 
-                 output_len, input_len, output_dim, input_dim,  
+                 output_len, input_len, output_dim, input_dim, x_features, locations,
                  selected_columns, probabilistic,
                  loss_weights, learning_rate,
                  num_levels, kernel, hid_size, dropout):
@@ -374,8 +374,8 @@ class CNN_SCINet(tf.keras.Model):
             # layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation = 'elu', padding='same'),
             layers.Conv2D(filters=cnn_filters, kernel_size=(1,cnn_kernel_size), activation = 'elu', padding='same'),
             layers.Flatten(),
-            layers.Dense(input_len * input_dim), # 24*5*5
-            layers.Reshape((input_len, input_dim)) # 24, 5*5
+            layers.Dense(input_len * input_dim), # 24*4*5
+            layers.Reshape((input_len, input_dim)) # 24, 4*5
         ]) # input_dim = X_train.shape[2] * X_train.shape[3]
 
         # SCINet layers for temporal pattern learning
@@ -405,7 +405,8 @@ class CNN_SCINet(tf.keras.Model):
         # pembeda SCINet dg scinet_builder ada di loss_weights dan learning_rate
         # loss_weights dan learning_rate di fungsi scinet_builder digunakan untuk compile model
 
-        self.inputs = tf.keras.Input(shape=(input_len, X_train.shape[2], X_train.shape[3])) 
+        # x_features = X_train.shape[2], locations = X_train.shape[3]
+        self.inputs = tf.keras.Input(shape=(input_len, x_features, locations)) 
                    # [ window size, feature, channel ] -> [ input len, X_train.shape[2], X_train.shape[3] ]
                    # input len = X_LEN = window size
                    # input_dim = X_train.shape[2] * X_train.shape[3], banyak feature: 25
