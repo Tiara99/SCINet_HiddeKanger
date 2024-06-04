@@ -44,7 +44,7 @@ def train_cnn_scinet( X_train: np.array,
                     cnn_filters = 64,
                     cnn_kernel_size = 4):
                         
-    print(f"===========================[CNN-SCINet]=====================================")
+    print(f"===========================[Conv2D-SCINet]=====================================")
     print(f"Initializing training with data:")
     print(f"X_train: {X_train.shape}, y_train: {y_train.shape}")
     print(f"X_val: {X_val.shape}, y_val: {y_val.shape}")
