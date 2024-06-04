@@ -22,7 +22,7 @@ def check_Loss_Last(X_test, Y_test, data_type: str):
     print(mae(Y_test, y_hat))
     print('....................')
 
-def train_cnn_scinet( X_train: np.array,
+def train_conv2d_scinet( X_train: np.array,
                     y_train: np.array,
                     X_val: np.array,
                     y_val: np.array,
@@ -41,8 +41,8 @@ def train_cnn_scinet( X_train: np.array,
                     loss_weights= [0.2, 0.2, 0.6],
                     learning_rate = 0.01,
                     probabilistic = False,
-                    cnn_filters = 64,
-                    cnn_kernel_size = 4):
+                    filters = 64,
+                    kernel_size = 4):
                         
     print(f"===========================[Conv2D-SCINet]=====================================")
     print(f"Initializing training with data:")
@@ -53,14 +53,14 @@ def train_cnn_scinet( X_train: np.array,
     #build SCINET model
     #callback: stops training when val_loss has been decreasing for past 25 epochs
     callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', 
-                                                patience = 150, 
+                                                patience = 50, 
                                                 restore_best_weights = True)
 
 
     input_dim = X_train.shape[2] * X_train.shape[3]
     x_features = X_train.shape[2]
     locations = X_train.shape[3]
-   # input_len, output_len = X_LEN, Y_LEN
+    # input_len, output_len = X_LEN, Y_LEN
     input_len = X_LEN
     # model = scinet_builder(  output_len= Y_LEN,
                              # output_dim= output_dim,
@@ -75,7 +75,7 @@ def train_cnn_scinet( X_train: np.array,
                              # learning_rate = learning_rate, 
                              # probabilistic = probabilistic)
     
-    model = CNN_SCINet( output_len = Y_LEN,
+    model = Conv2D_SCINet( output_len = Y_LEN,
                        output_dim = output_dim,
                        input_len = input_len,
                        input_dim = input_dim,
@@ -89,8 +89,8 @@ def train_cnn_scinet( X_train: np.array,
                        loss_weights = loss_weights,
                        learning_rate = learning_rate, 
                        probabilistic = probabilistic,
-                       cnn_filters = cnn_filters, 
-                       cnn_kernel_size = cnn_kernel_size)
+                       filters = filters, 
+                       kernel_size = kernel_size)
 
     # model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
     #           # loss={f'Block_{i}': "mae" for i in range(5)},  # Example loss
