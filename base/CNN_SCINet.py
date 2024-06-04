@@ -373,7 +373,9 @@ class CNN_SCINet(tf.keras.Model):
             # layers.Conv1D(filters=cnn_filters[1], kernel_size=cnn_kernel_size[1], activation = 'elu', padding='same'),
             # layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation = 'elu', padding='same'),
             layers.Conv2D(filters=cnn_filters, kernel_size=(1,cnn_kernel_size), activation = 'elu', padding='same'),
-            layers.Dense(30)
+            layers.Flatten(),
+            layers.Dense(input_len * X_train.shape[2] * X_train.shape[3]), # 24*5*5
+            layers.Reshape((input_len, X_train.shape[2] * X_train.shape[3])) # 24, 5*5
         ])
 
         # SCINet layers for temporal pattern learning
@@ -406,7 +408,7 @@ class CNN_SCINet(tf.keras.Model):
         self.inputs = tf.keras.Input(shape=(input_len, X_train.shape[2], X_train.shape[3])) 
                    # [ window size, feature, channel ] -> [ input len, X_train.shape[2], X_train.shape[3] ]
                    # input len = X_LEN = window size
-                   # input_dim = X_train.shape[2]*X_train.shape[3], banyak feature: 30
+                   # input_dim = X_train.shape[2]*X_train.shape[3], banyak feature: 25
                    # X_train.shape : 4D that is [ samples, window size, feature, channel ] with indexes 0, 1, 2, 3
                    # feature : X_train.shape[2]*X_train.shape[3] will be 30 in SCINet, while in conv2d will be X_train.shape[2] which equal to 5
                    # channel : X_train.shape[3] will be 5
