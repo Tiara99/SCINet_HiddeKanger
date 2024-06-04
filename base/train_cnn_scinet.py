@@ -41,8 +41,8 @@ def train_cnn_scinet( X_train: np.array,
                     loss_weights= [0.2, 0.2, 0.6],
                     learning_rate = 0.01,
                     probabilistic = False,
-                    cnn_filters = [256, 128, 1],
-                    cnn_kernel_size = [9, 9, 9]):
+                    cnn_filters = 64,
+                    cnn_kernel_size = 4):
                         
     print(f"===========================[CNN-SCINet]=====================================")
     print(f"Initializing training with data:")
@@ -58,6 +58,8 @@ def train_cnn_scinet( X_train: np.array,
 
 
     input_dim = X_train.shape[2] * X_train.shape[3]
+    x_features = X_train.shape[2]
+    locations = X_train.shape[3]
    # input_len, output_len = X_LEN, Y_LEN
     input_len = X_LEN
     # model = scinet_builder(  output_len= Y_LEN,
@@ -77,6 +79,8 @@ def train_cnn_scinet( X_train: np.array,
                        output_dim = output_dim,
                        input_len = input_len,
                        input_dim = input_dim,
+                       x_features = x_features,
+                       locations = locations,
                        selected_columns = selected_columns,
                        hid_size = hid_size,
                        num_levels = num_levels,
