@@ -350,15 +350,15 @@ def scinet_builder( output_len: list,
 
 from tensorflow.keras import layers
 
-# Define the CNN-SCINet combined model
-class CNN_SCINet(tf.keras.Model):
+# Define the Conv2D-SCINet combined model
+class Conv2D_SCINet(tf.keras.Model):
     # def __init__(self, cnn_filters, cnn_kernel_size, scinet_output_len, scinet_input_len, scinet_output_dim, scinet_num_levels):
-    def __init__(self, cnn_filters, cnn_kernel_size, 
+    def __init__(self, filters, kernel_size, 
                  output_len, input_len, output_dim, input_dim, x_features, locations,
                  selected_columns, probabilistic,
                  loss_weights, learning_rate,
                  num_levels, kernel, hid_size, dropout):
-        super(CNN_SCINet, self).__init__()
+        super(Conv2D_SCINet, self).__init__()
 
         self.input_len = input_len
         self.input_dim = input_dim
@@ -367,12 +367,12 @@ class CNN_SCINet(tf.keras.Model):
         self.loss_weights = loss_weights
                    
         # CNN layers for spatial pattern learning
-        self.cnn_layers = tf.keras.Sequential([
+        self.conv2d_layers = tf.keras.Sequential([
             # tf.keras.Input(shape=(output_dim, 1)),
             # layers.Conv1D(filters=cnn_filters[0], kernel_size=cnn_kernel_size[0], activation = 'elu', padding='same'),
             # layers.Conv1D(filters=cnn_filters[1], kernel_size=cnn_kernel_size[1], activation = 'elu', padding='same'),
             # layers.Conv1D(filters=cnn_filters[2], kernel_size=cnn_kernel_size[2], activation = 'elu', padding='same'),
-            layers.Conv2D(filters=cnn_filters, kernel_size=(1,cnn_kernel_size), activation = 'elu', padding='same'),
+            layers.Conv2D(filters=filters, kernel_size=(1,kernel_size), activation = 'elu', padding='same'),
             layers.Flatten(),
             layers.Dense(input_len * input_dim), # 24*4*5
             layers.Reshape((input_len, input_dim)) # 24, 4*5
@@ -416,10 +416,10 @@ class CNN_SCINet(tf.keras.Model):
 
     def call(self, inputs):
         # CNN layers for spatial pattern learning
-        cnn_output = self.cnn_layers(inputs)
+        conv2d_output = self.conv2d_layers(inputs)
         # SCINet layers for temporal pattern learning
         # combined_input = self.inputs + cnn_output
-        scinet_output = self.scinet_layers(cnn_output)
+        scinet_output = self.scinet_layers(conv2d_output)
         return scinet_output
 
     def build_model(self):
